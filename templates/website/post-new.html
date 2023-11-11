@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Create Blog Post - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1 class="page-heading">Add Post...</h1>
+    {% if user.is_authenticated %}
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy|safe }}
+                <button class="btn btn-secondary">Publish</button>
+            </form>
+    {% else %}
+        <p>Please <a href="{% url 'useraccounts:login' %}">log in</a>  to create blog posts.</p>
+    {% endif %}
+    </div>
+
+{% endblock %}

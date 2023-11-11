@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1 class="page-heading">Contact</h1>
+    <p>
+        Please feel free to reach out through e-mail using the contact form below.
+    </p>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy}}
+            <button class="btn btn-secondary">Submit</button>
+        </form>
+    <br>
+    </div>
+
+{% endblock %}

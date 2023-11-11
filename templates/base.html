@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Full-Stack personal website templare">
+    <meta name="keywords" content="Django, HTML, CSS, JavaScript, Docker">
+    <meta name="author" content="Joseph Kariuki">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="{% static 'website/img/favicon.ico' %}"/>
+    <!-- CSS only -->
+    <link href="{% static 'website/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'website/css/main.css' %}">
+    <title>{% block title %}J.K{% endblock %}</title>
+</head>
+<body>
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'website:home' %}">J.K</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'website:home' %}">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'website:blog' %}" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Blog
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if user.is_authenticated %}
+                  <li><a class="dropdown-item" href="{% url 'website:post-new' %}">Create Post</a></li>
+              {% endif %}
+            <li><a class="dropdown-item" href="{% url 'website:blog' %}">Posts</a></li>
+            <li><a class="dropdown-item" href="{% url 'website:blog_api' %}">API</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'website:about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'website:portfolio' %}">Portfolio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'website:contact' %}">Contact</a>
+        </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Account
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% if user.is_authenticated %}
+                  <li><a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a></li>
+                  <li><a class="dropdown-item" href="{% url 'account_change_password' %}">Change Password</a></li>
+                  <li><a class="dropdown-item" href="{% url 'account_reset_password' %}">Reset Password</a></li>
+                  {% if user.profile.id %}
+                      <li><a class="dropdown-item" href="{% url 'useraccounts:user_profile' user.profile.id %}">Your Profile</a></li>
+                      <li><a class="dropdown-item" href="{% url 'useraccounts:edit_user_profile' user.profile.id %}">Edit Profile</a></li>
+                  {% else %}
+                      <li><a class="dropdown-item" href="{% url 'useraccounts:create_user_profile' %}">Create Profile</a></li>
+                  {% endif %}
+              {% else %}
+                  <li><a class="dropdown-item" href="{% url 'account_login' %}">Login</a></li>
+                  <li><a class="dropdown-item" href="{% url 'useraccounts:register' %}">Register</a></li>
+              {% endif %}
+          </ul>
+      </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="ghfork">
+        <a href="https://github.com/jkariscodes/personal-website/fork">
+            <img src="{% static 'website/img/gh-fork.png' %}" alt="Fork me on GitHub">
+        </a>
+    </div>
+{% block content %}
+    <div class="container">
+
+    </div>
+ {% endblock %}
+<!-- Footer -->
+{% block footer %}
+<footer class="footer text-center text-lg-start bg-light text-muted">
+  <!-- Section: Social media -->
+  <section class="d-flex justify-content-center p-4 border-bottom">
+    <!-- Right -->
+    <div>
+      <a href="https://twitter.com/jkariscodes" target="_blank" class="me-4 text-reset" rel="noopener noreferrer nofollow">
+        <i class="bi bi-twitter"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/josephkariuki/" target="_blank" class="me-4 text-reset" rel="noopener noreferrer nofollow">
+        <i class="bi bi-linkedin"></i>
+      </a>
+      <a href="https://github.com/jkariscodes" target="_blank" class="me-4 text-reset" rel="noopener noreferrer nofollow">
+        <i class="bi bi-github"></i>
+      </a>
+        <a href="https://www.youtube.com/@kariscodes" target="_blank" class="me-4 text-reset" rel="noopener noreferrer nofollow">
+        <i class="bi bi-youtube"></i>
+      </a>
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Copyright -->
+  <div class="text-center p-4">
+    © 2023 Copyright:
+    <a class="text-reset fw-bold" href="https://josephkariuki.com/" target="_blank" rel="noopener noreferrer nofollow">Joseph Kariuki</a>
+       ·
+      <a href="{% url 'django.contrib.sitemaps.views.sitemap' %}" class="text-reset" rel="noopener noreferrer nofollow">Sitemap</a>
+       ·
+            <a href="{% url "website:post_feed" %}" rel="noopener noreferrer nofollow">RSS feeds</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+{% endblock %}
+<!-- Footer -->
+<script src="{% static 'website/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'website/js/jquery-3.7.0.min.js' %}"></script>
+<script src="{% static 'website/js/bootstrap.modal.forms.min.js' %}"></script>
+<script src="{% static 'website/js/main.js' %}"></script>
+</body>
+</html>

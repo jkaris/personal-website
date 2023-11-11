@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog - {{ block.super }}{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <h1 class="page-heading">Blog</h1><hr>
+        {% for post in object_list %}
+            {% if post.status == 'published' %}
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read post</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        {{ post.published.date }}
+                    </div>
+                </div>
+                <br>
+            {% else %}
+                {% if user.is_authenticated %}
+                    {% if user.id == post.author.id %}
+                        <br>
+                        <div class="card">
+                            <div class="card-header">
+                                Featured
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.body|safe|truncatechars:50 }}</p>
+                                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read post</a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                {{ post.published.date }}
+                            </div>
+                        </div>
+                        <br>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% empty %}
+            <p style="height: 50vh;">
+                Sorry, no blog posts to display.
+            </p>
+        {% endfor %}
+        {% include "website/paginator.html" %}
+    </div>
+
+{% endblock %}
